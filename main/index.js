@@ -1,14 +1,15 @@
-const students = [
-  {
-    name: "John",
-    age: 15,
-    likes: [2, 5, 8, 9],
-  },
-  {
-    name: "Peter",
-    age: 15,
-    likes: [2, 5, 8, 9],
-  },
-];
+const draw = ({ position, velocity }) => {
+  return {
+    position,
+    velocity,
+  };
+};
 
-document.querySelector("pre").innerText = JSON.stringify(students, null, 2);
+console.log(
+  draw({
+    velocity: {
+      x: 10,
+      y: 0,
+    },
+  })
+);

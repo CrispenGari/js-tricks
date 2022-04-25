@@ -360,3 +360,64 @@ const students = [
 
 document.querySelector("pre").innerText = JSON.stringify(students, null, 2);
 ```
+
+### Arguments to a function
+
+Suppose we have a function called `draw` this function takes in two arguments `position` and `velocity`. This function looks as follows:
+
+```js
+const draw = (position, velocity) => {
+  return {
+    position,
+    velocity,
+  };
+};
+```
+
+But you will noticed that when calling this function both `position` and `velocity` must be passed to the function `draw` in order for the function to execute as follows:
+
+```js
+console.log(
+  draw(
+    {
+      x: 10,
+      y: 0,
+    },
+    {
+      x: 10,
+      y: 0,
+    }
+  )
+);
+```
+
+Let's say we have a situation or snerio where passing someone can either pass `position` or `velocity` or all of them or neither as argument to this function for example as follows:
+
+```js
+console.log(draw());
+console.log(
+  draw({
+    position: 0,
+    velocity: 10,
+  })
+);
+console.log(
+  draw({
+    position: 0,
+  })
+);
+console.log(draw({ velocity: 10 }));
+```
+
+In order for our function to do this, we need to create it as follows:
+
+```js
+const draw = ({ position, velocity }) => {
+  return {
+    position,
+    velocity,
+  };
+};
+```
+
+When creating a function in like this the order of passing arguments to a function does not mater and also the number of arguments passed to a function also does not mater.
