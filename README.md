@@ -13,7 +13,7 @@ const numbers = [1, 2];
 [a, b] = numbers;
 console.log("a = ", a, "\nb = ", b);
 /* OUTPUT
-a =  1 
+a =  1
 b =  2
 */
 ```
@@ -421,3 +421,90 @@ const draw = ({ position, velocity }) => {
 ```
 
 When creating a function in like this the order of passing arguments to a function does not mater and also the number of arguments passed to a function also does not mater.
+
+### Local `||` assignment Operator
+
+The logical `||` assignment Operator is used to values to a variable let's consider the following situation about the variable `name`
+
+```js
+let name;
+if (!name) {
+  name = "World";
+}
+console.log({ name });
+```
+
+We are just assigning the value of name to `Wold` if the `name` if `falsy` alternatively using the logical assignment operator we can do it as follows:
+
+```js
+let name;
+name ||= "World"; // same as saying name = name ? name : "world"
+console.log({ name });
+```
+
+### Getter Property
+
+We can use the getter property in an object to get a certain value, for example let's consider the following object.
+
+```js
+const user = {
+  firstName: "John",
+  lastName: "Doe",
+  fullName: "John Doe",
+};
+
+console.log({ user });
+```
+
+So we can use the `getter` property to get the `fullName` as a computed object of `firstName` and `lastName` so our object will look as follows:
+
+```js
+const user = {
+  firstName: "John",
+  lastName: "Doe",
+  get fullName() {
+    return this.firstName + " " + this.lastName;
+  },
+};
+console.log({ user });
+```
+
+### Proxy Object
+
+Let's say we have a user object that looks as follows:
+
+```ts
+const user = {
+  id: 1,
+  username: "username",
+  gender: "male",
+  password: "password",
+  email: "username@domain.com",
+  age: 24,
+};
+console.log({ password: user.password });
+```
+
+Let's say the `password` and the `age` property of this object are very sensitive and we don't want to tell the user that they are logging sensetive information when they try to access these properties. We can use the `Proxy` object to create the `userProxy` object as follows:
+
+```js
+const userProxy = new Proxy(user, {
+  get(target, property, reciever) {
+    if (["password", "age"].includes(property)) {
+      console.warn({
+        message: "You are logging the sensetive information about the user",
+        property: target[property],
+      });
+    }
+    return Reflect.get(...arguments);
+  },
+});
+console.log(userProxy.password);
+```
+
+We will get the following from our console.
+
+```js
+> {message: 'You are logging the sensetive information about the user', property: 'password'}
+> 'password'
+```
