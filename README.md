@@ -504,7 +504,58 @@ console.log(userProxy.password);
 
 We will get the following from our console.
 
-```js
+```shell
 > {message: 'You are logging the sensetive information about the user', property: 'password'}
 > 'password'
+```
+
+### Promise concurrency
+
+Let's say we are trying to get the data from an api using the `await` syntax, let's say we are trying to get `users` and a `todo` at the same time from `jsonplaceholder` api using the fetch data as follows:
+
+```js
+const fetchUser = async () => {
+  const res = await fetch("https://jsonplaceholder.typicode.com/users");
+  return await res.json();
+};
+
+const fetchTodo = async () => {
+  const res = await fetch("https://jsonplaceholder.typicode.com/todos/2");
+  return await res.json();
+};
+const fetchData = async () => {
+  const users = await fetchUser();
+  const todo = await fetchTodo();
+  console.log({ users, todo });
+};
+fetchData();
+```
+
+In the fetch data we can tell that our code will be slow since it is not running in parallel, this is because we are waiting to get the `users` data first and then fetch a `todo`. Since the todo are not depending on user we can make this code faster by executing this in parallel by changing our `fetchData` function to this:
+
+```ts
+const fetchData = async () => {
+  const [users, todo] = await Promise.all([fetchUser(), fetchTodo()]);
+  console.log({ users, todo });
+};
+```
+
+By changing our `fetchData` function to this, we are not handling errors, so in-order for us to handle errors we can change `Promise.all()` to use the `Promise.allSettled` so that we get a `usersResult` and `todoResult` with these two objects back we can create an `handleResult` function that allows us to handle result for each `resultObject`.
+
+```js
+const handleResult = (result) => {
+  if (result.status === "rejected") {
+    console.error(result.reason);
+  } else {
+    console.error(result.value);
+  }
+};
+const fetchData = async () => {
+  const [usersResult, todoResult] = await Promise.allSettled([
+    fetchUser(),
+    fetchTodo(),
+  ]);
+  handleResult(usersResult);
+  handleResult(todoResult);
+};
 ```
