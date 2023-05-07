@@ -559,3 +559,13 @@ const fetchData = async () => {
   handleResult(todoResult);
 };
 ```
+
+### `array.at()`
+
+This function allows to access elements of array using `negative` index, rather than the `[index]` syntax which returns `undefined` when we pass the negative index.
+
+```ts
+const elements = [1, 2, 3, 5];
+console.log(elements[-1]); // undefined
+console.log(elements.at(-1)); // 5
+```
