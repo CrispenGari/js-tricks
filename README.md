@@ -569,3 +569,18 @@ const elements = [1, 2, 3, 5];
 console.log(elements[-1]); // undefined
 console.log(elements.at(-1)); // 5
 ```
+### `Object.groupBy()`
+This method helps us to group some objects that belongs together as a single group. Example:
+
+```ts
+const people = [
+    {name: "Jonh", id: 1, grade: 5},
+    {name: "Peter", id: 3, grade: 5},
+    {name: "Marry", id: 7, grade: 3},
+    {name: "Jack", id: 16, grade: 3},
+    {name: "Doe", id: 8, grade: 1},
+]
+
+const result = Object.groupBy(people, ({ grade }) => grade)
+console.log(result)
+```
