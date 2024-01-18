@@ -584,3 +584,12 @@ const people = [
 const result = Object.groupBy(people, ({ grade }) => grade)
 console.log(result)
 ```
+
+### replace() function on strings
+
+Let's say we have a string `"hello-there_friend"` and we want to replace either `-` or `_` with that particular item repeated `3` times. We can use the replace function as follows.
+
+```js
+const str = "hello-there_friend".replace(/(-|_)/g, (item) => item.repeat(3));
+console.log(str)
+```
